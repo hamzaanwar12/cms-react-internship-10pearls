@@ -1,16 +1,53 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"; // For routing in react-router-dom
+import sideBarItems from "@/constants"; // Import sidebar items
+import SideBarItem from "./SideBarItem"; // Import SideBarItem component
+import { AnimatedTooltip } from "@/components/ui/AnimatedToolTip"; // Import AnimatedTooltip component
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+  const [isCompact, setIsCompact] = useState(false);
+
+  const handleResize = () => {
+    setIsCompact(window.innerWidth <= 1024);
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <aside style={{ width: '200px', backgroundColor: '#f9f9f9', borderRight: '1px solid #ddd', padding: '10px' }}>
-      <nav>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
-        </ul>
-      </nav>
+    <aside className="sticky top-0 left-0 bg-dark-1 px-1 flex flex-col w-fit py-6 gap-3 sm:max-w-[85px] lg:max-w-[264px] min-h-screen max-sm:hidden">
+      {sideBarItems.map((item, index) => (
+        <div key={item.route} className="relative group">
+          {isCompact ? (
+            <AnimatedTooltip
+              items={[
+                {
+                  id: index,
+                  name: item.title,
+                  designation: "",
+                  image: "",
+                },
+              ]}
+            >
+              <button className="hover:bg-gray-700 p-4 rounded-lg transition-colors">
+                <item.icon className="text-white" size={32} />
+              </button>
+            </AnimatedTooltip>
+          ) : (
+            <SideBarItem
+              title={item.title}
+              route={item.route}
+              Icon={item.icon}
+              isActive={pathname === item.route}
+            />
+          )}
+        </div>
+      ))}
     </aside>
   );
 };

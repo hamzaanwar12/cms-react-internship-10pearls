@@ -18,7 +18,7 @@ const SideBarItem: React.FC<SideBarItemProps> = ({ title, route, isActive, Icon 
       }`}
       aria-label={title} // Accessibility improvement
     >
-      <Icon className="text-white" size={32} /> {/* Render the Icon */}
+      <Icon className="text-white" size={26} /> {/* Render the Icon */}
       <h1 className="hidden sm:hidden lg:block text-2xl ml-3">{title}</h1>
     </Link>
   );

@@ -8,15 +8,16 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import sideBarItems from "@/constants";
-import logo from "/icons/logo.png";
-import hamburger from "/icons/hamburger.svg";
+import logo from "@/assets/icons/logo.png"; // Update path for Vite
+
+import hamburger from "@/assets/icons/hamburger.svg";
 
 const MobileNav: React.FC = () => {
   const location = useLocation();
   const pathname = location.pathname; // Current route
 
   return (
-    <section className="max-w-[264px]">
+    <section className="max-w-[270px]">
       <Sheet>
         {/* Trigger Button */}
         <SheetTrigger asChild>
@@ -39,16 +40,16 @@ const MobileNav: React.FC = () => {
             <Link to="/" className="flex items-center gap-1">
               <img
                 src={logo} // Static asset for Vite
-                height={50}
-                width={50}
+                height={25}
+                width={25}
                 alt="Recky Room"
               />
-              <h2 className="text-[26px] text-white font-bold">Recky Room</h2>
+              <h2 className="text-[26px] text-white font-bold">TouchBase</h2>
             </Link>
           </SheetTitle>
 
           {/* Sidebar Links */}
-          <div className="flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto">
+          <div className="flex h-[calc(100vh-90px)] flex-col justify-between overflow-y-auto">
             <section className="pt-14 flex flex-col h-full gap-5">
               {sideBarItems.map((item) => {
                 const isActive = pathname === item.route; // Check active route

@@ -14,7 +14,19 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      colors: {},
+      colors: {
+        dark: {
+          1: "#1C1F2E",
+          2: "#161925",
+          3: "#252A41",
+        },
+        sky: {
+          1: "#ECF0FF",
+        },
+        blue: {
+          link: "#0E78F9",
+        },
+      },
     },
   },
   plugins: [
