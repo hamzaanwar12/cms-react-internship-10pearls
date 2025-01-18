@@ -5,11 +5,12 @@ import SideBar from "../components/SideBar";
 
 const DashboardLayout = () => {
   return (
-    <div style={{ display: "flex", height: "100vh", flexDirection: "column" }}>
+    <div className="flex flex-col">
       <Navbar />
-      <div style={{ flex: 1, display: "flex" }}>
+      <div className="flex flex-1">
         <SideBar />
-        <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+        {/* <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}> */}
+        <main className="flex  w-full p-1 overflow-y-auto ">
           <Outlet /> {/* Render nested routes here */}
         </main>
       </div>
