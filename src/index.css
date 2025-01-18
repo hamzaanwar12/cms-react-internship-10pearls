@@ -2,17 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  background-color: "bg-dark-1";
-  color: "text-white";
-}
-
 body {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-  height: auto;
-  
+
   /* min-width: 320px; */
   /* min-height: 100vh; */
 }

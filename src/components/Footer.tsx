@@ -1,9 +1,7 @@
-import React from 'react';
-
 const Footer = () => {
   return (
-    <footer style={{ padding: '10px', backgroundColor: '#f4f4f4', borderTop: '1px solid #ddd' }}>
-      <p>&copy; 2025 Your Company. All rights reserved.</p>
+    <footer className="p-[10px] bg-dark-1  w-full  border-t-gray-600">
+      <p>&copy; 2025 Recky CMS. All rights reserved.</p>
     </footer>
   );
 };
