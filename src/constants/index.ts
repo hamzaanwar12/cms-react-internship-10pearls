@@ -4,7 +4,8 @@ import { RiDashboardFill } from "react-icons/ri"; // Dashboard icon
 import { IoIosContacts } from "react-icons/io"; // Contacts icon
 import { TbLogs } from "react-icons/tb"; // Logs icon
 import { FaArrowRightToBracket } from "react-icons/fa6"; // Recents icon
-import { GiProgression } from "react-icons/gi"; // Progress icon
+// import { GiProgression } from "react-icons/gi"; // Progress icon
+import { MdPerson } from "react-icons/md";
 
 // Sidebar items definition
 const sideBarItems = [
@@ -33,10 +34,15 @@ const sideBarItems = [
     route: "/recents",
     icon: FaArrowRightToBracket,
   },
+  // {
+  //   title: "Progress",
+  //   route: "/progress",
+  //   icon: GiProgression,
+  // },
   {
-    title: "Progress",
-    route: "/progress",
-    icon: GiProgression,
+    title: "Profile",
+    route: "/profile",
+    icon: MdPerson,
   },
 ];
 

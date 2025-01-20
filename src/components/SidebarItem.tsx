@@ -13,13 +13,13 @@ const SideBarItem: React.FC<SideBarItemProps> = ({ title, route, isActive, Icon 
   return (
     <Link
       to={route} // `to` for react-router-dom
-      className={`hover:bg-blue-link px-5 py-4 flex text-white items-center justify-start rounded-lg transition-colors ${
-        isActive ? "bg-blue-link " : "bg-dark-1"
+      className={`hover:bg-gray-700 px-5 py-4 flex text-white items-center justify-start rounded-lg transition-colors ${
+        isActive ? "bg-gray-700 " : "bg-dark-1"
       }`}
       aria-label={title} // Accessibility improvement
     >
       <Icon className="text-white" size={26} /> {/* Render the Icon */}
-      <h1 className="hidden sm:hidden lg:block text-2xl ml-3">{title}</h1>
+      <h1 className="hidden text-2xl ml-3">{title}</h1>
     </Link>
   );
 };

@@ -6,18 +6,20 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
 export const AnimatedTooltip: React.FC<{
   items: {
     id: number;
     name: string;
-    designation: string;
-    image: string;
+    isActive: boolean;
+    route: string;
   }[];
   children: React.ReactNode;
   positionOffset?: { right?: number; left?: number }; // Add a positionOffset prop
 }> = ({ items, children, positionOffset }) => {
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const navigate  = useNavigate();
   const springConfig = { stiffness: 100, damping: 5 };
   const x = useMotionValue(0);
   const rotate = useSpring(
@@ -34,6 +36,7 @@ export const AnimatedTooltip: React.FC<{
       className="relative group"
       onMouseEnter={() => setHoveredIndex(items[0].id)}
       onMouseLeave={() => setHoveredIndex(null)}
+      onClick={()=>navigate(items[0].route)}
     >
       <AnimatePresence mode="popLayout">
         {hoveredIndex === items[0].id && (
@@ -61,7 +64,6 @@ export const AnimatedTooltip: React.FC<{
             <div className="font-bold text-white relative z-30 text-base">
               {items[0].name}
             </div>
-            <div className="text-white text-xs">{items[0].designation}</div>
           </motion.div>
         )}
       </AnimatePresence>

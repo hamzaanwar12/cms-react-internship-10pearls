@@ -17,7 +17,7 @@ const MobileNav: React.FC = () => {
   const pathname = location.pathname; // Current route
 
   return (
-    <section className="max-w-[270px]">
+    <section className="md:hidden max-w-[270px]">
       <Sheet>
         {/* Trigger Button */}
         <SheetTrigger asChild>

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom"; // For routing in react-router-d
 import sideBarItems from "@/constants"; // Import sidebar items
 import SideBarItem from "./SideBarItem"; // Import SideBarItem component
 import { AnimatedTooltip } from "@/components/ui/AnimatedToolTip"; // Import AnimatedTooltip component
-
+import { Link } from "react-router-dom";
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const pathname = location.pathname;
@@ -20,21 +20,25 @@ const Sidebar: React.FC = () => {
   }, []);
 
   return (
-    <aside className="sticky top-0 left-0 bg-dark-1 px-1 flex flex-col w-fit py-6 gap-3 sm:max-w-[85px] lg:max-w-[264px] min-h-screen max-sm:hidden">
+    <aside className="sticky  top-0 left-0  bg-dark-1 px-1 flex flex-col w-fit py-6 gap-3 sm:max-w-[85px] lg:max-w-[264px] max-h-screen max-sm:hidden">
       {sideBarItems.map((item, index) => (
-        <div key={item.route} className="relative group">
+        <Link to={item.route} key={item.route} className="relative group">
           {isCompact ? (
             <AnimatedTooltip
               items={[
                 {
                   id: index,
                   name: item.title,
-                  designation: "",
-                  image: "",
+                  route: item.route,
+                  isActive: pathname === item.route,
                 },
               ]}
             >
-              <button className="hover:bg-gray-700 p-4 rounded-lg transition-colors">
+              <button
+                className={`${
+                  pathname === item.route ? "bg-gray-700" : ""
+                }hover:bg-gray-700 p-4 rounded-lg transition-colors`}
+              >
                 <item.icon className="text-white" size={32} />
               </button>
             </AnimatedTooltip>
@@ -46,7 +50,7 @@ const Sidebar: React.FC = () => {
               isActive={pathname === item.route}
             />
           )}
-        </div>
+        </Link>
       ))}
     </aside>
   );
