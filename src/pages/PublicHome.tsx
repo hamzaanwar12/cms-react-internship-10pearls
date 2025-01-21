@@ -1,19 +1,5 @@
-import React from "react";
 import useGet from "@/hooks/use-GetHook"; // Assuming the hook is in the same directory
-
-type User = {
-  id: number;
-  username: string;
-  email: string;
-  name: string;
-  role: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  deactivatedAt: string | null;
-  deactivatedBy: string | null;
-  contactCount: number;
-};
+import { User } from "@/types";
 
 export default function PublicHome() {
   const { data, isLoading, isError } = useGet<{
@@ -21,7 +7,7 @@ export default function PublicHome() {
     status: string;
     message: string;
     data: User[];
-  }>("http://localhost:8000/api/users/get-users");
+  }>(`${import.meta.env.VITE_API_BASE_URL}/users/get-users`);
 
   // Handle loading state
   if (isLoading) {
@@ -45,7 +31,7 @@ export default function PublicHome() {
             className="p-4 border-b border-gray-200 flex justify-between items-center"
           >
             <div>
-              <p className="text-lg font-semibold">{user.name}</p>
+              <p className="text-lg font-semibold">{user.username}</p>
               <p className="text-sm text-gray-500">
                 Role: {user.role} | Status: {user.status}
               </p>

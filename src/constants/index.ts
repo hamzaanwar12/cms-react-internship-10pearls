@@ -6,9 +6,10 @@ import { TbLogs } from "react-icons/tb"; // Logs icon
 import { FaArrowRightToBracket } from "react-icons/fa6"; // Recents icon
 // import { GiProgression } from "react-icons/gi"; // Progress icon
 import { MdPerson } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
 
 // Sidebar items definition
-const sideBarItems = [
+const sideBarUserItems = [
   {
     title: "Home",
     route: "/",
@@ -34,11 +35,6 @@ const sideBarItems = [
     route: "/recents",
     icon: FaArrowRightToBracket,
   },
-  // {
-  //   title: "Progress",
-  //   route: "/progress",
-  //   icon: GiProgression,
-  // },
   {
     title: "Profile",
     route: "/profile",
@@ -46,4 +42,38 @@ const sideBarItems = [
   },
 ];
 
-export default sideBarItems;
+// Sidebar items definition
+const sideBarAdminItems = [
+  {
+    title: "Dashboard",
+    route: "/dashboard",
+    icon: RiDashboardFill,
+  },
+  {
+    title: "Users",
+    route: "/users",
+    icon: FaUsers,
+  },
+  {
+    title: "Contacts",
+    route: "/contacts",
+    icon: IoIosContacts,
+  },
+  {
+    title: "Logs",
+    route: "/logs",
+    icon: TbLogs,
+  },
+  {
+    title: "Recents",
+    route: "/recents",
+    icon: FaArrowRightToBracket,
+  },
+  {
+    title: "Profile",
+    route: "/profile",
+    icon: MdPerson,
+  },
+];
+
+export { sideBarUserItems, sideBarAdminItems };

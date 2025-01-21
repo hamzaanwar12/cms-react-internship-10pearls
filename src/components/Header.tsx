@@ -13,8 +13,8 @@ const Header = () => {
         <img
           src={logo}
           alt="TouchBase"
-          height={25}
-          width={25}
+          height={35}
+          width={35}
           title="TouchBase"
         />
         <h2 className="text-white text-2xl font-bold ">TouchBase</h2>
@@ -32,11 +32,11 @@ const Header = () => {
               Sign In
             </Button>
           </Link>
-          <MobileNav />
         </SignedOut>
 
         <SignedIn>
           <UserButton />
+          <MobileNav />
         </SignedIn>
       </div>
     </nav>

@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useDispatch } from "react-redux";
-import { setLogin, setUser } from "@/store/userSlice";
+import { setLogin, setUser, UserState } from "@/store/userSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const CompleteSignupPage: React.FC = () => {
   const { user, isSignedIn } = useUser(); // Get user data from Clerk
-  const naviagte = useNavigate(); 
+  const navigate = useNavigate(); // Corrected typo
   const dispatch = useDispatch(); // Redux dispatch
+  const prevuser: UserState = useSelector(
+    (state: RootState) => state.userState
+  ); // Get user data from Redux
 
-  console.log("User:", user); // Log user data to the console   
-  console.log("Is Signed In:", isSignedIn); // Log whether the user is signed in
   useEffect(() => {
     const registerUser = async () => {
-      if (isSignedIn && user) {
+      if (isSignedIn && user && prevuser.user == null) {
         const newUser = {
           id: user.id, // Clerk's user ID
           username: user.username || `${user.firstName} ${user.lastName}`, // Full name
@@ -31,24 +34,25 @@ const CompleteSignupPage: React.FC = () => {
             { headers: { "Content-Type": "application/json" } }
           );
 
-          console.log("User created in backend:", response.data); // Log backend response to the console
-          console.log("User created in backend:", response.data); // Log backend response to the console
-          // dispatch(setUser(response.data)); // Update Redux state with new user data
+          // Assuming the response returns the user data
+          const result = response.data;
+          console.log("User created in backend:", result.data); // Log backend response to the console
 
+          // Update Redux state with new user data
+          dispatch(setUser(result.data)); // Store user data in Redux
+          dispatch(setLogin(true)); // Set login status to true
 
-          // Update Redux store
-          dispatch(setLogin(true));
-          dispatch(setUser(response.data)); // Store backend response in Redux
-          naviagte("/"); 
-
+          // Navigate to home page after successful user creation
+          navigate("/");
         } catch (error: any) {
           console.error("Error creating user in backend:", error.message);
         }
       }
     };
-
-    registerUser();
-  }, [isSignedIn, user, dispatch]);
+    if (isSignedIn && user && prevuser.user == null) {
+      registerUser(); // Call the registerUser function to create user
+    }
+  }, []);
 
   return (
     <main className="pt-[2rem] flex h-screen w-full items-center justify-center">

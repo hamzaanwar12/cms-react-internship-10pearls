@@ -1,22 +1,79 @@
 // src/routes/AuthenticatedRoutes.tsx
-import { lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import AdminDashBoardLayout from '../layout/AdminDashBaordLayout'; // Ensure this path is correct
-import { SignedIn } from '@clerk/clerk-react';
-import PageNotFound from '@/pages/PageNotFound';
+import { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+import { SignedIn } from "@clerk/clerk-react";
+import PageNotFound from "@/pages/PageNotFound";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { UserState } from "@/store/userSlice";
 
-const Home = lazy(() => import('../pages/Home'));
-// const About = lazy(() => import('../pages/About'));
-const CompleteSignupPage = lazy(() => import('@/pages/auth/CompleteSignUpPage'));
+const Layout = lazy(() => import("../layout/Layout")); // Example public page
+// const Home = lazy(() => import("../pages/Home"));
+const CompleteSignupPage = lazy(
+  () => import("@/pages/auth/CompleteSignUpPage")
+);
+
+//admin Pages
+const AdminDashBoard = lazy(() => import("@/pages/admin/dashborad"));
+const AdminUsers = lazy(() => import("@/pages/admin/dashborad"));
+const AdminRecents = lazy(() => import("@/pages/admin/dashborad"));
+const AdminProfile = lazy(() => import("@/pages/admin/dashborad"));
+
+//user Pages
+const UserDashBoard = lazy(() => import("@/pages/user/dashboard"));
+const UserProfile = lazy(() => import("@/pages/user/dashboard"));
+const UserRecents = lazy(() => import("@/pages/user/dashboard"));
+
+//common pages
+const UserContacts = lazy(() => import("@/pages/user/dashboard"));
+const UserActivity = lazy(() => import("@/pages/user/dashboard"));
+const AdminActivity = lazy(() => import("@/pages/admin/dashborad"));
+const AdminContacts = lazy(() => import("@/pages/admin/dashborad"));
+
 const AuthenticatedRoutes = () => {
+  const userCurrentState: UserState = useSelector(
+    (state: RootState) => state.userState
+  ); // Get user data from Redux
+  console.log("userCurrentState : ", userCurrentState.user);
+  console.log("userCurrentRole : ", userCurrentState.user?.role);
+
   return (
     <SignedIn>
       <Routes>
-        <Route path="/" element={<AdminDashBoardLayout />}>
-          <Route index element={<Home />} />
-          <Route path="complete-signup" element={<CompleteSignupPage />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Route>
+        {/* Admin Routes */}
+        {userCurrentState.user?.role === "ADMIN" && (
+          <Route path="/" element={<Layout />}>
+            <Route index element={<AdminDashBoard />} />
+            {/* <Route index element={<AdminDashBoard />} /> */}
+            <Route path="dashboard" element={<AdminDashBoard />} />
+            <Route path="contacts" element={<AdminContacts />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="activity" element={<AdminActivity />} />
+            <Route path="recents" element={<AdminRecents />} />
+            <Route path="profile" element={<AdminProfile />} />
+            <Route path="complete-signup" element={<CompleteSignupPage />} />
+            {/* <Route path="logging-in" element={<LoggingIn />} /> */}
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        )}
+
+        {/* User Routes */}
+        {userCurrentState.user?.role === "USER" && (
+          <Route path="/" element={<Layout />}>
+            <Route index element={<UserDashBoard />} />
+            <Route path="dashboard" element={<UserDashBoard />} />
+            <Route path="contacts" element={<UserContacts />} />
+            <Route path="activity" element={<UserActivity />} />
+            <Route path="recents" element={<UserRecents />} />
+            <Route path="profile" element={<UserProfile />} />
+            <Route path="complete-signup" element={<CompleteSignupPage />} />
+            {/* <Route path="logging-in" element={<LoggingIn />} /> */}
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        )}
+
+        {/* Catch-all for unauthorized roles */}
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </SignedIn>
   );

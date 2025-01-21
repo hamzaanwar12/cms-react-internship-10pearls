@@ -59,7 +59,7 @@ export const AnimatedTooltip: React.FC<{
               whiteSpace: "nowrap",
               ...positionOffset, // Dynamically apply left or right offsets
             }}
-            className="absolute -top-16 flex text-xs flex-col items-end justify-center rounded-md bg-black z-50 shadow-xl px-4 py-2"
+            className="absolute -top-7 flex text-xs flex-col items-end justify-center rounded-md bg-black z-50 shadow-xl px-4 py-2"
           >
             <div className="font-bold text-white relative z-30 text-base">
               {items[0].name}

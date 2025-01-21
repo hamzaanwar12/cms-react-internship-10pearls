@@ -1,17 +1,19 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Header";
 import Footer from "../components/Footer";
-// import SideBar from "../components/SideBar";
-// import { SignedIn } from '@clerk/clerk-react';
+import SideBar from "../components/SideBar";
+import { SignedIn } from "@clerk/clerk-react";
 
-const DashboardLayout = () => {
+const Layout = () => {
   return (
     <div className="flex flex-col">
       <Navbar />
-      <div className="relative flex flex-1">
-        {/* <SideBar /> */}
+      <div className="bg-white text-black  flex flex-1">
+        <SignedIn>
+          <SideBar />
+        </SignedIn>
         {/* <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}> */}
-        <main className="flex  w-full p-1 ">
+        <main className="p-4 flex-1 ">
           <Outlet /> {/* Render nested routes here */}
         </main>
       </div>
@@ -20,4 +22,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default Layout;

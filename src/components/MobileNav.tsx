@@ -17,7 +17,7 @@ const MobileNav: React.FC = () => {
   const pathname = location.pathname; // Current route
 
   return (
-    <section className="md:hidden max-w-[270px]">
+    <section className="md:hidden">
       <Sheet>
         {/* Trigger Button */}
         <SheetTrigger asChild>
@@ -33,15 +33,15 @@ const MobileNav: React.FC = () => {
         {/* Drawer/Sidebar Content */}
         <SheetContent
           side="left"
-          className="bg-dark-1 px-1 flex flex-1 flex-col w-fit py-6 gap-5 min-h-screen"
+          className="bg-dark-1 min-w-[250px] px-1 flex flex-1 flex-col w-fit py-6 gap-5 min-h-screen"
         >
           {/* Header with Logo */}
           <SheetTitle>
             <Link to="/" className="flex items-center gap-1">
               <img
                 src={logo} // Static asset for Vite
-                height={25}
-                width={25}
+                height={35}
+                width={35}
                 alt="Recky Room"
               />
               <h2 className="text-[26px] text-white font-bold">TouchBase</h2>
@@ -49,7 +49,7 @@ const MobileNav: React.FC = () => {
           </SheetTitle>
 
           {/* Sidebar Links */}
-          <div className="flex h-[calc(100vh-90px)] flex-col justify-between overflow-y-auto">
+          <div className="flex h-[calc(100vh-80px)] flex-col justify-between overflow-y-auto">
             <section className="pt-14 flex flex-col h-full gap-5">
               {sideBarItems.map((item) => {
                 const isActive = pathname === item.route; // Check active route
@@ -65,9 +65,9 @@ const MobileNav: React.FC = () => {
                       {/* Render icon dynamically */}
                       {React.createElement(item.icon, {
                         className: "text-white",
-                        size: 25, // Adjust icon size
+                        size: 30, // Adjust icon size
                       })}
-                      <p className="font-semibold text-white">{item.title}</p>
+                      <p className="text-2xl font-semibold  text-white">{item.title}</p>
                     </Link>
                   </SheetClose>
                 );
