@@ -7,7 +7,7 @@ import logo from "@/assets/icons/logo.png"; // Update path for Vite
 
 const Header = () => {
   return (
-    <nav className="flex p-[10px] bg-dark-1 w-full border-b border-gray-600 justify-between items-center">
+    <nav className="h-[50px] flex p-[10px] bg-dark-1 w-full border-b border-gray-600 justify-between items-center">
       {/* Logo and Home Link */}
       <Link to="/" className="flex items-center gap-2">
         <img

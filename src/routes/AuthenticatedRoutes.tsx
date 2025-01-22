@@ -15,7 +15,7 @@ const CompleteSignupPage = lazy(
 
 //admin Pages
 const AdminDashBoard = lazy(() => import("@/pages/admin/dashborad"));
-const AdminUsers = lazy(() => import("@/pages/admin/dashborad"));
+const AdminUsers = lazy(() => import("@/pages/admin/Users"));
 const AdminRecents = lazy(() => import("@/pages/admin/dashborad"));
 const AdminProfile = lazy(() => import("@/pages/admin/dashborad"));
 
@@ -25,10 +25,12 @@ const UserProfile = lazy(() => import("@/pages/user/dashboard"));
 const UserRecents = lazy(() => import("@/pages/user/dashboard"));
 
 //common pages
-const UserContacts = lazy(() => import("@/pages/user/dashboard"));
-const UserActivity = lazy(() => import("@/pages/user/dashboard"));
-const AdminActivity = lazy(() => import("@/pages/admin/dashborad"));
-const AdminContacts = lazy(() => import("@/pages/admin/dashborad"));
+// --> contact Page
+const UserContacts = lazy(() => import("@/pages/common/Contacts"));
+const AdminContacts = lazy(() => import("@/pages/common/Contacts"));
+// --> Activtiy Page
+const UserActivity = lazy(() => import("@/pages/common/ActivityLogs"));
+const AdminActivity = lazy(() => import("@/pages/common/ActivityLogs"));
 
 const AuthenticatedRoutes = () => {
   const userCurrentState: UserState = useSelector(

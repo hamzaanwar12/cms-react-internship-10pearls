@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {
   ColumnDef,
   SortingState,
@@ -8,15 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
+import { Table, TableBody, TableHead, TableHeader, TableRow, TableCell } from "@/components/ui/table";
 import { LuArrowUpDown, LuTrash2, LuEye } from "react-icons/lu";
 import { FaEdit } from "react-icons/fa";
 
@@ -49,11 +41,9 @@ export function GenericTable<TData>({
   return (
     <div className="rounded-md border box-border">
       <Table>
-        {/* Table Header */}
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="bg-blue-500">
-              <TableHead className="text-white">Sr</TableHead>
               {headerGroup.headers.map((header) => (
                 <TableHead key={header.id} className="text-white">
                   {header.isPlaceholder ? null : (
@@ -65,10 +55,7 @@ export function GenericTable<TData>({
                         )
                       }
                     >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                      {flexRender(header.column.columnDef.header, header.getContext())}
                       {header.column.getCanSort() && (
                         <LuArrowUpDown className="ml-2 h-4 w-4" />
                       )}
@@ -81,7 +68,6 @@ export function GenericTable<TData>({
           ))}
         </TableHeader>
 
-        {/* Table Body */}
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row, index) => (
@@ -121,7 +107,7 @@ export function GenericTable<TData>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length + 2} className="h-24 text-center">
+              <TableCell colSpan={columns.length + 1} className="h-24 text-center">
                 No results.
               </TableCell>
             </TableRow>

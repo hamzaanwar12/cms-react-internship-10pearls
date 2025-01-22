@@ -27,7 +27,7 @@ const sideBarUserItems = [
   },
   {
     title: "Logs",
-    route: "/logs",
+    route: "/activity",
     icon: TbLogs,
   },
   {
@@ -61,7 +61,7 @@ const sideBarAdminItems = [
   },
   {
     title: "Logs",
-    route: "/logs",
+    route: "/activity",
     icon: TbLogs,
   },
   {

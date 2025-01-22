@@ -7,14 +7,23 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import sideBarItems from "@/constants";
+import { sideBarAdminItems, sideBarUserItems } from "@/constants"; // Import sidebar items
 import logo from "@/assets/icons/logo.png"; // Update path for Vite
 
 import hamburger from "@/assets/icons/hamburger.svg";
 
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { UserState } from "@/store/userSlice";
+
 const MobileNav: React.FC = () => {
   const location = useLocation();
   const pathname = location.pathname; // Current route
+  const userCurrState: UserState = useSelector(
+    (state: RootState) => state.userState
+  );
+  const sideBarItems =
+    userCurrState.user?.role == "ADMIN" ? sideBarAdminItems : sideBarUserItems;
 
   return (
     <section className="md:hidden">
@@ -67,7 +76,9 @@ const MobileNav: React.FC = () => {
                         className: "text-white",
                         size: 30, // Adjust icon size
                       })}
-                      <p className="text-2xl font-semibold  text-white">{item.title}</p>
+                      <p className="text-2xl font-semibold  text-white">
+                        {item.title}
+                      </p>
                     </Link>
                   </SheetClose>
                 );
