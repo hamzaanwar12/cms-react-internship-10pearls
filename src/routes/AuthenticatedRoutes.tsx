@@ -164,7 +164,6 @@ const AddContact = React.lazy(() => import("@/pages/common/AddContact"));
 const AuthenticatedRoutes = () => {
   const userCurrentState = useSelector((state: RootState) => state.userState);
 
-  
   return (
     <SignedIn>
       <Routes>
@@ -172,6 +171,7 @@ const AuthenticatedRoutes = () => {
           <Route path="/" element={<Layout />}>
             <Route index element={<AdminDashBoard />} />
             <Route path="users" element={<AdminUsers />} />
+            <Route path="dashboard" element={<AdminDashBoard />} />
             <Route path="activity" element={<AdminActivity />} />
             <Route path="contacts" element={<AdminContacts />} />
             <Route path="add-contact" element={<AddContact />} />
@@ -182,6 +182,7 @@ const AuthenticatedRoutes = () => {
         {userCurrentState.user?.role === "USER" && (
           <Route path="/" element={<Layout />}>
             <Route index element={<UserDashBoard />} />
+            <Route path="dashboard" element={<UserDashBoard />} />
             <Route path="contacts" element={<UserContacts />} />
             <Route path="activity" element={<UserActivity />} />
             <Route path="add-contact" element={<AddContact />} />
