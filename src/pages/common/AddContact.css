@@ -1,0 +1,54 @@
+.react-tel-input .form-control {
+  position: relative;
+  /* left:25px; */
+  font-size: 14px;
+  letter-spacing: .01rem;
+  background: #FFFFFF;
+  /* border: 2px solid black; */
+  border: 2px solid rgb(156 163 175 / var(--tw-border-opacity, 1));
+  /* Match the border thickness and color */
+  border-radius: 5px;
+  padding: 8px 52px;
+  /* Match the padding */
+  line-height: 1.5;
+  height: auto;
+  /* Ensure it adapts like the other inputs */
+  outline: none;
+  width: 100%;
+  /* Ensure it spans the full width */
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+/* Match focus styles */
+.react-tel-input .form-control:focus {
+  border-color: #3b82f6;
+  /* Match focus ring color (blue) */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  outline: none;
+}
+
+/* Error state styling */
+.react-tel-input .form-control.error {
+  border-color: #f87171;
+  /* Match the error border color (red) */
+}
+
+/* Ensure the dropdown button aligns */
+.react-tel-input .flag-dropdown {
+  border: none;
+  background: transparent;
+  border-radius: 5px 0 0 5px;
+  /* Match the border radius */
+  padding-left: 8px;
+}
+
+.react-tel-input .flag-dropdown.open {
+  background-color: #f3f4f6;
+  /* Slight background highlight when open */
+}
+
+/* Align the dropdown icon */
+.react-tel-input .arrow {
+  color: #6b7280;
+  /* Match the color scheme */
+}

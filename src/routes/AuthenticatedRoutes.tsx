@@ -149,11 +149,17 @@ const Layout = React.lazy(() => import("../layout/Layout"));
 // Admin Pages
 const AdminDashBoard = React.lazy(() => import("@/pages/admin/dashborad"));
 const AdminUsers = React.lazy(() => import("@/pages/admin/Users"));
-const AdminActivity = React.lazy(() => import("@/pages/common/ActivityLogs"));
 
 // User Pages
 const UserDashBoard = React.lazy(() => import("@/pages/user/dashboard"));
 const UserContacts = React.lazy(() => import("@/pages/common/Contacts"));
+
+//commonpages
+const AdminContacts = React.lazy(() => import("@/pages/common/Contacts"));
+const AdminActivity = React.lazy(() => import("@/pages/common/ActivityLogs"));
+const UserActivity = React.lazy(() => import("@/pages/common/ActivityLogs"));
+const AddContact = React.lazy(() => import("@/pages/common/AddContact"));
+// const AdminRecents = React.lazy(() => import("@/pages/common/Recents"));
 
 const AuthenticatedRoutes = () => {
   const userCurrentState = useSelector((state: RootState) => state.userState);
@@ -167,6 +173,9 @@ const AuthenticatedRoutes = () => {
             <Route index element={<AdminDashBoard />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="activity" element={<AdminActivity />} />
+            <Route path="contacts" element={<AdminContacts />} />
+            <Route path="add-contact" element={<AddContact />} />
+            {/* <Route path="recent" element={<AdminRecents />} /> */}
             <Route path="*" element={<PageNotFound />} />
           </Route>
         )}
@@ -174,6 +183,8 @@ const AuthenticatedRoutes = () => {
           <Route path="/" element={<Layout />}>
             <Route index element={<UserDashBoard />} />
             <Route path="contacts" element={<UserContacts />} />
+            <Route path="activity" element={<UserActivity />} />
+            <Route path="add-contact" element={<AddContact />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
         )}

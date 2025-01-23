@@ -3,10 +3,11 @@ import { FaHome } from "react-icons/fa"; // Home icon
 import { RiDashboardFill } from "react-icons/ri"; // Dashboard icon
 import { IoIosContacts } from "react-icons/io"; // Contacts icon
 import { TbLogs } from "react-icons/tb"; // Logs icon
-import { FaArrowRightToBracket } from "react-icons/fa6"; // Recents icon
+// import { FaArrowRightToBracket } from "react-icons/fa6"; // Recents icon
 // import { GiProgression } from "react-icons/gi"; // Progress icon
-import { MdPerson } from "react-icons/md";
+// import { MdPerson } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
+import { IoAddOutline } from "react-icons/io5";
 
 // Sidebar items definition
 const sideBarUserItems = [
@@ -30,15 +31,20 @@ const sideBarUserItems = [
     route: "/activity",
     icon: TbLogs,
   },
+  // {
+  //   title: "Recents",
+  //   route: "/recents",
+  //   icon: FaArrowRightToBracket,
+  // },
+  // {
+  //   title: "Profile",
+  //   route: "/profile",
+  //   icon: MdPerson,
+  // },
   {
-    title: "Recents",
-    route: "/recents",
-    icon: FaArrowRightToBracket,
-  },
-  {
-    title: "Profile",
-    route: "/profile",
-    icon: MdPerson,
+    title: "Add Contact",
+    route: "/add-contact",
+    icon: IoAddOutline,
   },
 ];
 
@@ -64,15 +70,20 @@ const sideBarAdminItems = [
     route: "/activity",
     icon: TbLogs,
   },
+  // {
+  //   title: "Recents",
+  //   route: "/recents",
+  //   icon: FaArrowRightToBracket,
+  // },
+  // {
+  //   title: "Profile",
+  //   route: "/profile",
+  //   icon: MdPerson,
+  // },
   {
-    title: "Recents",
-    route: "/recents",
-    icon: FaArrowRightToBracket,
-  },
-  {
-    title: "Profile",
-    route: "/profile",
-    icon: MdPerson,
+    title: "Add Contact",
+    route: "/add-contact",
+    icon: IoAddOutline,
   },
 ];
 

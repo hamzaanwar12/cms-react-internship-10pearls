@@ -33,21 +33,36 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({
     try {
       setLoading(true);
 
-      // Step 1: Delete user from the backend
-      const backendResponse = await axios.delete(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/users/delete-user/${userId}/${performerId}`
+      // Step 1: Delete user from Clerk
+      const clerkResponse = await axios.delete(
+        `${import.meta.env.VITE_CLERK_API_BASE_URL}/delete-user/${userId}`
       );
 
-      if (backendResponse.data.status === "success") {
+      if (clerkResponse.status === 200) {
         toast({
-          description: "User deleted successfully from both backend.",
+          description: "User deleted successfully from Clerk.",
         });
-        onDeleteSuccess(); // Trigger a successful deletion
+
+        // Step 2: Delete user from the backend
+        const backendResponse = await axios.delete(
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/users/delete-user/${userId}/${performerId}`
+        );
+
+        if (backendResponse.data.status === "success") {
+          toast({
+            description: "User deleted successfully from backend.",
+          });
+          onDeleteSuccess(); // Trigger a successful deletion
+        } else {
+          toast({
+            description: "Failed to delete user from backend.",
+          });
+        }
       } else {
         toast({
-          description: "Failed to delete user from backend.",
+          description: "Failed to delete user from Clerk.",
         });
       }
     } catch (error) {
