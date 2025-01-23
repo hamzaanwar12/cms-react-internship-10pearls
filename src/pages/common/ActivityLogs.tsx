@@ -5,17 +5,19 @@ import { ActivityLog } from "@/types";
 import Loader from "@/components/Loader";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { LuTrash2, LuEye } from "react-icons/lu";
-import { FaEdit } from "react-icons/fa";
 import GenericPagination from "@/components/GenericPagination";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { truncateString } from "@/utils";
+import ActivityLogModal from "@/components/modals/ActivityModal";
 
 export default function ActivityLogsPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [sortField, setSortField] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [selectedLog, setSelectedLog] = useState<ActivityLog | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const user = useSelector((state: RootState) => state.userState.user);
   const userId = user?.id;
@@ -84,16 +86,17 @@ export default function ActivityLogsPage() {
     return baseColumns;
   }, [userRole]);
 
-  const handleEditLog = (row: ActivityLog) => {
-    console.log("Edit log:", row);
-  };
+  // const handleEditLog = (row: ActivityLog) => {
+  //   console.log("Edit log:", row);
+  // };
 
   const handleDeleteLog = (row: ActivityLog) => {
     console.log("Delete log:", row);
   };
 
-  const handleViewLog = (row: ActivityLog) => {
-    console.log("View log:", row);
+  const handleViewLog = (log: ActivityLog) => {
+    setSelectedLog(log);
+    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -121,21 +124,23 @@ export default function ActivityLogsPage() {
       )}
       <TableCell>{log.action}</TableCell>
       <TableCell>{new Date(log.timestamp).toLocaleString()}</TableCell>
-      <TableCell>{truncateString(log.details,15)}</TableCell>
+      <TableCell>{truncateString(log.details, 15)}</TableCell>
       <TableCell>
         <div className="flex gap-1">
-          <button
+          {/* <button
             onClick={() => handleEditLog(log)}
-            className="p-1 rounded-full text-blue-500 hover:bg-white hover:text-white"
+            className="p-1 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white"
           >
             <FaEdit />
-          </button>
-          <button
-            onClick={() => handleDeleteLog(log)}
-            className="p-1 rounded-full text-red-500 hover:bg-red-500 hover:text-white"
-          >
-            <LuTrash2 />
-          </button>
+          </button> */}
+          {userRole === "ADMIN" && (
+            <button
+              onClick={() => handleDeleteLog(log)}
+              className="p-1 rounded-full text-red-500 hover:bg-red-500 hover:text-white"
+            >
+              <LuTrash2 />
+            </button>
+          )}
           <button
             onClick={() => handleViewLog(log)}
             className="p-1 rounded-full text-green-500 hover:bg-green-500 hover:text-white"
@@ -154,14 +159,27 @@ export default function ActivityLogsPage() {
   return (
     <div className="p-1 flex flex-col gap-4">
       <h1 className="text-xl font-bold mb-4">Activity Log List</h1>
-      <GenericTable columns={columns} onSort={handleSort}>
-        {activityLogRows}
-      </GenericTable>
-      <GenericPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {data?.data.content.length !== 0 ? (
+        <>
+          <GenericTable columns={columns} onSort={handleSort}>
+            {activityLogRows}
+          </GenericTable>
+          <GenericPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </>
+      ) : (
+        <div className="text-center text-red-500">No contacts found.</div>
+      )}
+      {selectedLog && (
+        <ActivityLogModal
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          activityLog={selectedLog}
+        />
+      )}
     </div>
   );
 }

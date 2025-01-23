@@ -3,8 +3,8 @@ export interface User {
   username: string;
   email: string;
   role: "USER" | "ADMIN";
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   status: "ACTIVE" | "INACTIVE" | "DEACTIVATED" | "SUSPENDED";
   deactivated_at: string | null;
   deactivated_by: string | null;

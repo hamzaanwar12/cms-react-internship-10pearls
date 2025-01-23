@@ -19,9 +19,30 @@ const GenericPagination: React.FC<GenericPaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  const getVisiblePages = () => {
+    const pages: (string | number)[] = [];
+
+    // Add ellipsis to the left if current page is not the first page
+    if ((currentPage+1) > 1) {
+      pages.push("..."); // Left ellipsis
+    }
+
+    // Add the current page (user-facing)
+    pages.push(currentPage + 1);
+
+    // Add ellipsis to the right if current page is not the last page
+    if (currentPage + 1 < totalPages ) {
+      pages.push("..."); // Right ellipsis
+    }
+
+    return pages;
+  };
+
+  const visiblePages = getVisiblePages();
+
   return (
     <Pagination>
-      <PaginationContent>
+      <PaginationContent className="flex flex-wrap">
         {/* Previous Button */}
         <PaginationItem>
           <PaginationPrevious
@@ -38,22 +59,28 @@ const GenericPagination: React.FC<GenericPaginationProps> = ({
         </PaginationItem>
 
         {/* Page Numbers */}
-        {[...Array(totalPages)].map((_, pageIndex) => (
-          <PaginationItem key={pageIndex}>
-            <PaginationLink
-              className={
-                `cursor-pointer border rounded border-blue-link ` +
-                (pageIndex === currentPage
-                  ? "bg-blue-link text-white"
-                  : "bg-white text-blue-link")
-              }
-              isActive={pageIndex === currentPage}
-              onClick={() => onPageChange(pageIndex)}
-            >
-              {pageIndex + 1}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
+        {visiblePages.map((page, index) =>
+          typeof page === "number" ? (
+            <PaginationItem key={index}>
+              <PaginationLink
+                className={
+                  `cursor-pointer border rounded border-blue-link ` +
+                  (page - 1 === currentPage
+                    ? "bg-blue-link text-white"
+                    : "bg-white text-blue-link")
+                }
+                isActive={page - 1 === currentPage}
+                onClick={() => onPageChange(page - 1)}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ) : (
+            <PaginationItem key={index}>
+              <span className="text-gray-500 px-2">{page}</span>
+            </PaginationItem>
+          )
+        )}
 
         {/* Next Button */}
         <PaginationItem>

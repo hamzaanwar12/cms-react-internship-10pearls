@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useGet from "@/hooks/use-GetHook";
+import useGetAgain from "@/hooks/use-Get-AgainHook";
 import { GenericTable } from "@/components/NewModifyGeneric";
 import { User, Contact } from "@/types";
 import Loader from "@/components/Loader";
@@ -10,6 +10,7 @@ import { truncateString } from "@/utils";
 import GenericPagination from "@/components/GenericPagination";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
+import ContactModal from "@/components/modals/ContactModal";
 
 export default function ContactsPage() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -17,7 +18,14 @@ export default function ContactsPage() {
   const [sortField, setSortField] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-  const user: User | null = useSelector((state: RootState) => state.userState.user);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"view" | "edit">("view");
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [check, setCheck] = useState<boolean >(false);
+
+  const user: User | null = useSelector(
+    (state: RootState) => state.userState.user
+  );
   const userId = user?.id;
   const userRole = user?.role;
 
@@ -27,7 +35,7 @@ export default function ContactsPage() {
       : `/contacts/user/${userId}/paginated`
     : "";
 
-  const { data, isLoading, isError } = useGet<{
+  const { data, isLoading, isError } = useGetAgain<{
     statusCode: number;
     status: string;
     message: string;
@@ -36,73 +44,81 @@ export default function ContactsPage() {
     };
     totalPages: number;
     currentPage: number;
-  }>(`${import.meta.env.VITE_API_BASE_URL}${apiRoute}?page=${currentPage}${
-    sortField ? `&sort=${sortField},${sortDirection}` : ""
-  }`);
+  }>(
+    `${import.meta.env.VITE_API_BASE_URL}${apiRoute}?page=${currentPage}${
+      sortField ? `&sort=${sortField},${sortDirection}` : ""
+    }`,check
+  );
 
   const handleSort = (field: string, direction: "asc" | "desc") => {
     setSortField(field);
     setSortDirection(direction);
   };
 
-  const columns = React.useMemo(
-    () => {
-      const baseColumns = [
-        {
-          accessorKey: "Sr.",
-          header: "Sr",
-        },
-        {
-          accessorKey: "id",
-          header: "ID",
-        },
-        {
-          accessorKey: "name",
-          header: "Name",
-        },
-        {
-          accessorKey: "phone",
-          header: "Phone",
-        },
-        {
-          accessorKey: "email",
-          header: "Email",
-        },
-        {
-          accessorKey: "address",
-          header: "Address",
-        },
-        {
-          accessorKey: "createdAt",
-          header: "Created At",
-        },
-        {
-          header: "Action",
-        },
-      ];
-
-      if (userRole === "ADMIN") {
-        baseColumns.splice(2, 0, {
-          accessorKey: "userId",
-          header: "User ID",
-        });
-      }
-
-      return baseColumns;
-    },
-    [userRole]
-  );
-
-  const handleEditContact = (row: Contact) => {
-    console.log("Edit contact:", row);
+  const handleViewContact = (contact: Contact) => {
+    setSelectedContact(contact);
+    setModalMode("view");
+    setModalOpen(true);
   };
+
+  const handleEditContact = (contact: Contact) => {
+    setSelectedContact(contact);
+    setModalMode("edit");
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setSelectedContact(null);
+  };
+
+  const columns = React.useMemo(() => {
+    const baseColumns = [
+      {
+        accessorKey: "Sr.",
+        header: "Sr",
+      },
+      {
+        accessorKey: "id",
+        header: "ID",
+      },
+      {
+        accessorKey: "name",
+        header: "Name",
+      },
+      {
+        accessorKey: "phone",
+        header: "Phone",
+      },
+      {
+        accessorKey: "email",
+        header: "Email",
+      },
+      {
+        accessorKey: "address",
+        header: "Address",
+      },
+      {
+        accessorKey: "createdAt",
+        header: "Created At",
+      },
+      {
+        header: "Action",
+      },
+    ];
+
+    if (userRole === "ADMIN") {
+      baseColumns.splice(2, 0, {
+        accessorKey: "userId",
+        header: "User ID",
+      });
+    }
+
+    return baseColumns;
+  }, [userRole]);
 
   const handleDeleteContact = (row: Contact) => {
     console.log("Delete contact:", row);
-  };
-
-  const handleViewContact = (row: Contact) => {
-    console.log("View contact:", row);
   };
 
   useEffect(() => {
@@ -138,21 +154,43 @@ export default function ContactsPage() {
       <TableCell>{new Date(contact.createdAt).toLocaleDateString()}</TableCell>
       <TableCell>
         <div className="flex space-x-2">
-          <button
-            onClick={() => handleEditContact(contact)}
-            className="p-2 rounded-full text-blue-500 hover:bg-white hover:text-white"
-          >
-            <FaEdit />
-          </button>
-          <button
-            onClick={() => handleDeleteContact(contact)}
-            className="p-2 rounded-full text-red-500 hover:bg-red-500 hover:text-white"
-          >
-            <LuTrash2 />
-          </button>
+          {userRole === "ADMIN" && contact.userId == userId && (
+            <button
+              onClick={() => handleEditContact(contact)}
+              className="p-1 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white"
+            >
+              <FaEdit />
+            </button>
+          )}
+          {userRole !== "ADMIN" && (
+            <button
+              onClick={() => handleEditContact(contact)}
+              className="p-1 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white"
+            >
+              <FaEdit />
+            </button>
+          )}
+          {userRole !== "ADMIN" && (
+            <button
+              onClick={() => handleDeleteContact(contact)}
+              className="p-1 rounded-full text-red-500 hover:bg-red-500 hover:text-white"
+            >
+              <LuTrash2 />
+            </button>
+          )}
+
+          {userRole === "ADMIN" && contact.userId == userId && (
+            <button
+              onClick={() => handleDeleteContact(contact)}
+              className="p-1 rounded-full text-red-500 hover:bg-red-500 hover:text-white"
+            >
+              <LuTrash2 />
+            </button>
+          )}
+
           <button
             onClick={() => handleViewContact(contact)}
-            className="p-2 rounded-full text-green-500 hover:bg-green-500 hover:text-white"
+            className="p-1 rounded-full text-green-500 hover:bg-green-500 hover:text-white"
           >
             <LuEye />
           </button>
@@ -165,17 +203,38 @@ export default function ContactsPage() {
     setCurrentPage(page);
   };
 
+  const handleSuccess = ()=>
+  {
+    setCheck(!check); 
+  }
+
   return (
     <div className="p-4 flex flex-col gap-4">
       <h1 className="text-xl font-bold mb-4">Contact List</h1>
-      <GenericTable columns={columns} onSort={handleSort}>
-        {contactRows}
-      </GenericTable>
-      <GenericPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {data?.data.content.length !== 0 ? (
+        <>
+          <GenericTable columns={columns} onSort={handleSort}>
+            {contactRows}
+          </GenericTable>
+          <GenericPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </>
+      ) : (
+        <div className="text-center text-red-500">No contacts found.</div>
+      )}
+
+      {modalOpen && selectedContact && (
+        <ContactModal
+          open={modalOpen}
+          onClose={handleModalClose}
+          mode={modalMode}
+          contact={selectedContact}
+          onUpdateSuccess={handleSuccess}
+        />
+      )}
     </div>
   );
 }

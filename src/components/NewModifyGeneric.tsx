@@ -47,13 +47,17 @@ export function GenericTable<TData>({
   };
 
   const getSortIcon = (columnId: string) => {
-    const currentSort = sorting.find(sort => sort.id === columnId);
+    const currentSort = sorting.find((sort) => sort.id === columnId);
     if (!currentSort) {
-      return <ChevronsUpDown className="inline-block h-4 w-4 ml-1 text-white" />;
+      return (
+        <ChevronsUpDown className="inline-block h-4 w-4 ml-1 text-white" />
+      );
     }
-    return currentSort.desc ? 
-      <ChevronDown className="inline-block h-4 w-4 ml-1" /> : 
-      <ChevronUp className="inline-block h-4 w-4 ml-1" />;
+    return currentSort.desc ? (
+      <ChevronDown className="inline-block h-4 w-4 ml-1" />
+    ) : (
+      <ChevronUp className="inline-block h-4 w-4 ml-1" />
+    );
   };
 
   const table = useReactTable({
@@ -67,24 +71,29 @@ export function GenericTable<TData>({
 
   return (
     <div className="rounded-md border box-border p-2">
-      <div className="w-full max-w-[450px] overflow-x-visible sm:max-w-full sm:min-w-[500px] md:w-full md:overflow-x-hidden lg:max-w-none">
+      <div className="w-full max-w-[500px] overflow-x-visible sm:max-w-full sm:min-w-[500px] md:w-full md:overflow-x-hidden lg:max-w-none">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-blue-link hover:bg-blue-link">
+              <TableRow
+                key={headerGroup.id}
+                className="bg-blue-link hover:bg-blue-link"
+              >
                 {headerGroup.headers.map((header) => (
-                  <TableHead 
-                    key={header.id} 
+                  <TableHead
+                    key={header.id}
                     className="text-white text-center cursor-pointer select-none"
                     onClick={() => handleSort(header.id)}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className="flex  text-center items-center  justify-center">
+                      <div className=" text-center items-center  justify-center">
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                        {header.id !== "Sr." && header.id !== "Action" && getSortIcon(header.id)}
+                        {header.id !== "Sr." &&
+                          header.id !== "Action" &&
+                          getSortIcon(header.id)}
                       </div>
                     )}
                   </TableHead>

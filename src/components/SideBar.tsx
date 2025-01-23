@@ -31,7 +31,7 @@ const Sidebar: React.FC = () => {
 
   return (
     // <aside className=" h-[calc(100vh - 26px)] hidden sm:flex sm:flex-col md:block  sticky  top-0 left-0  bg-dark-1 px-1 lg:px-2  w-fit py-6 gap-3 sm:items-center sm:min-w-[65px] lg:items-start sm:max-w-[90px] lg:max-w-[250px] max-h-screen max-sm:hidden">
-    <aside className="h-[100vh] hidden sm:flex sm:flex-col sticky top-[0px] left-0 bg-dark-1 px-1 lg:px-2 py-6 gap-3 sm:items-center lg:items-start sm:w-[65px] lg:w-[250px] max-h-screen max-sm:hidden">
+    <aside className="h-screen hidden sm:flex sm:flex-col sticky top-[0px] left-0 bg-dark-1 px-1 lg:px-2 py-6 gap-3 sm:items-center lg:items-start sm:w-[65px] lg:w-[250px] max-h-screen max-sm:hidden">
       <div className="flex flex-col  gap-5">
         {sideBarItems.map((item, index) => {
           console.log(
