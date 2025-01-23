@@ -21,7 +21,7 @@ const App = () => {
     console.log("User:", user);
     console.log("User State:", currentUserState);
     const fetchUser = async () => {
-      if (isSignedIn && currentUserState.isLogin && user && currentUserState.user == null) {
+      if (isSignedIn && user && currentUserState.user == null) {
         try {
           // Fetch the user data from the backend using Clerk user ID
           const response = await axios.get(

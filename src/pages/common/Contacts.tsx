@@ -11,6 +11,7 @@ import GenericPagination from "@/components/GenericPagination";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import ContactModal from "@/components/modals/ContactModal";
+import DeleteContactModal from "@/components/modals/DeleteContactModel";
 // import { OverflowContainer } from "@/components/NewModifyGeneric";
 export default function ContactsPage() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -20,6 +21,8 @@ export default function ContactsPage() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"view" | "edit">("view");
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false); // State for delete modal
+
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [check, setCheck] = useState<boolean>(false);
 
@@ -120,6 +123,8 @@ export default function ContactsPage() {
 
   const handleDeleteContact = (row: Contact) => {
     console.log("Delete contact:", row);
+    setSelectedContact(row); // Set the selected user to delete
+    setDeleteModalOpen(true); // Open the delete confirmation modal
   };
 
   useEffect(() => {
@@ -234,6 +239,15 @@ export default function ContactsPage() {
           mode={modalMode}
           contact={selectedContact}
           onUpdateSuccess={handleSuccess}
+        />
+      )}
+      {selectedContact && (
+        <DeleteContactModal
+          open={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          userId={ selectedContact?.userId || userId || ""}
+          contactId={selectedContact?.id || 0}
+          onDeleteSuccess={handleSuccess}
         />
       )}
     </div>
