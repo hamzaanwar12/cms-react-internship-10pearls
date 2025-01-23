@@ -43,7 +43,7 @@ const App = () => {
     };
 
     fetchUser();
-  }, [isSignedIn, user, dispatch]);
+  }, [isSignedIn, user]);
 
   return (
     <Router>

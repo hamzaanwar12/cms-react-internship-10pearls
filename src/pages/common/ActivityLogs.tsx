@@ -4,7 +4,8 @@ import { GenericTable } from "@/components/NewModifyGeneric";
 import { ActivityLog } from "@/types";
 import Loader from "@/components/Loader";
 import { TableRow, TableCell } from "@/components/ui/table";
-import { LuTrash2, LuEye } from "react-icons/lu";
+// import { LuTrash2, LuEye } from "react-icons/lu";
+import {  LuEye } from "react-icons/lu";
 import GenericPagination from "@/components/GenericPagination";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
@@ -90,9 +91,9 @@ export default function ActivityLogsPage() {
   //   console.log("Edit log:", row);
   // };
 
-  const handleDeleteLog = (row: ActivityLog) => {
-    console.log("Delete log:", row);
-  };
+  // const handleDeleteLog = (row: ActivityLog) => {
+  //   console.log("Delete log:", row);
+  // };
 
   const handleViewLog = (log: ActivityLog) => {
     setSelectedLog(log);
@@ -133,14 +134,14 @@ export default function ActivityLogsPage() {
           >
             <FaEdit />
           </button> */}
-          {userRole === "ADMIN" && (
+          {/* {userRole === "ADMIN" && (
             <button
               onClick={() => handleDeleteLog(log)}
               className="p-1 rounded-full text-red-500 hover:bg-red-500 hover:text-white"
             >
               <LuTrash2 />
             </button>
-          )}
+          )} */}
           <button
             onClick={() => handleViewLog(log)}
             className="p-1 rounded-full text-green-500 hover:bg-green-500 hover:text-white"
