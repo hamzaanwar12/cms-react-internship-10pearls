@@ -38,7 +38,6 @@ export function GenericTable<TData>({
     } else if (currentSort.id === columnId && !currentSort.desc) {
       newSort = [{ id: columnId, desc: true }];
     }
-    // If it's already desc, clicking again will clear the sort
 
     setSorting(newSort);
     if (onSort && newSort.length > 0) {
@@ -70,9 +69,10 @@ export function GenericTable<TData>({
   });
 
   return (
-    <div className="rounded-md border box-border p-2">
-      <div className="w-full max-w-[500px] overflow-x-visible sm:max-w-full sm:min-w-[500px] md:w-full md:overflow-x-hidden lg:max-w-none">
-        <Table>
+    // <div className="mx-auto  max-w-[250px]  xs:max-w-[420px] sm:min-w-[560px] sm:max-w-[590px] md:max-w-[700px] lg:max-w-full border-black p-1 rounded-md border box-border transition-all duration-300 ease-in-out">
+    <div className="mx-auto  max-w-[250px]  xs:max-w-[420px] sm:min-w-[560px] sm:max-w-[590px] md:max-w-[700px] lg:max-w-full  p-1 rounded-md border box-border transition-all duration-300 ease-in-out">
+      <div className="overflow-x-auto">
+        <Table className="w-full min-w-[360px]">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
@@ -82,11 +82,11 @@ export function GenericTable<TData>({
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="text-white text-center cursor-pointer select-none"
+                    className="text-white text-center cursor-pointer select-none whitespace-nowrap"
                     onClick={() => handleSort(header.id)}
                   >
                     {header.isPlaceholder ? null : (
-                      <div className=" text-center items-center  justify-center">
+                      <div className="text-center flex items-center justify-center">
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
@@ -103,6 +103,18 @@ export function GenericTable<TData>({
           </TableHeader>
           <TableBody>{children}</TableBody>
         </Table>
+      </div>
+    </div>
+  );
+}
+export function OverflowContainer() {
+  return (
+    <div className="w-[200px] h-[300px] bg-gray-200 overflow-x-auto overflow-y-hidden whitespace-nowrap">
+      <div className="flex">
+        <div className="w-[150px] h-[150px] bg-red-500 flex-shrink-0 mr-4"></div>
+        <div className="w-[150px] h-[150px] bg-blue-500 flex-shrink-0 mr-4"></div>
+        <div className="w-[150px] h-[150px] bg-green-500 flex-shrink-0 mr-4"></div>
+        <div className="w-[150px] h-[150px] bg-yellow-500 flex-shrink-0"></div>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import GenericPagination from "@/components/GenericPagination";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import ContactModal from "@/components/modals/ContactModal";
-
+import { OverflowContainer } from "@/components/NewModifyGeneric";
 export default function ContactsPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -21,7 +21,7 @@ export default function ContactsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"view" | "edit">("view");
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
-  const [check, setCheck] = useState<boolean >(false);
+  const [check, setCheck] = useState<boolean>(false);
 
   const user: User | null = useSelector(
     (state: RootState) => state.userState.user
@@ -47,7 +47,8 @@ export default function ContactsPage() {
   }>(
     `${import.meta.env.VITE_API_BASE_URL}${apiRoute}?page=${currentPage}${
       sortField ? `&sort=${sortField},${sortDirection}` : ""
-    }`,check
+    }`,
+    check
   );
 
   const handleSort = (field: string, direction: "asc" | "desc") => {
@@ -150,7 +151,7 @@ export default function ContactsPage() {
       <TableCell>{contact.name}</TableCell>
       <TableCell>{contact.phone}</TableCell>
       <TableCell>{contact.email}</TableCell>
-      <TableCell>{contact.address}</TableCell>
+      <TableCell>{contact.address || "Not added"}</TableCell>
       <TableCell>{new Date(contact.createdAt).toLocaleDateString()}</TableCell>
       <TableCell>
         <div className="flex space-x-2">
@@ -203,13 +204,12 @@ export default function ContactsPage() {
     setCurrentPage(page);
   };
 
-  const handleSuccess = ()=>
-  {
-    setCheck(!check); 
-  }
+  const handleSuccess = () => {
+    setCheck(!check);
+  };
 
   return (
-    <div className="p-4 flex flex-col gap-4">
+    <div className="p-2 flex flex-col gap-4">
       <h1 className="text-xl font-bold mb-4">Contact List</h1>
       {data?.data.content.length !== 0 ? (
         <>
@@ -226,6 +226,7 @@ export default function ContactsPage() {
         <div className="text-center text-red-500">No contacts found.</div>
       )}
 
+      <OverflowContainer />
       {modalOpen && selectedContact && (
         <ContactModal
           open={modalOpen}
