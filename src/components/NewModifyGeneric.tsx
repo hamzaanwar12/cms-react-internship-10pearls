@@ -70,8 +70,8 @@ export function GenericTable<TData>({
 
   return (
     // <div className="mx-auto  max-w-[250px]  xs:max-w-[420px] sm:min-w-[560px] sm:max-w-[590px] md:max-w-[700px] lg:max-w-full border-black p-1 rounded-md border box-border transition-all duration-300 ease-in-out">
-    <div className="mx-auto  max-w-[250px]  xs:max-w-[420px] sm:min-w-[560px] sm:max-w-[590px] md:max-w-[700px] lg:max-w-full  p-1 rounded-md border box-border transition-all duration-300 ease-in-out">
-      <div className="overflow-x-auto">
+    <div className="mx-auto  overflow-x-auto max-w-[250px]  xs:max-w-[420px] sm:min-w-[560px] sm:max-w-[600px] md:max-w-[760px] lg:min-w-full lg:max-w-full  p-1 rounded-md border box-border transition-all duration-300 ease-in-out">
+      {/* <div className="overflow-x-auto"> */}
         <Table className="w-full min-w-[360px]">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -103,7 +103,7 @@ export function GenericTable<TData>({
           </TableHeader>
           <TableBody>{children}</TableBody>
         </Table>
-      </div>
+      {/* </div> */}
     </div>
   );
 }

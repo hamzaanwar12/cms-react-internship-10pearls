@@ -1,11 +1,15 @@
 // src/routes/AuthenticatedRoutes.tsx
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { SignedIn } from "@clerk/clerk-react";
 import PageNotFound from "@/pages/PageNotFound";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { UserState } from "@/store/userSlice";
+import { setLogin, setUser, UserState } from "@/store/userSlice";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const Layout = lazy(() => import("../layout/Layout")); // Example public page
 // const Home = lazy(() => import("../pages/Home"));
@@ -36,9 +40,60 @@ const AuthenticatedRoutes = () => {
   const userCurrentState: UserState = useSelector(
     (state: RootState) => state.userState
   ); // Get user data from Redux
+  // const { user, isSignedIn } = useUser();
   console.log("userCurrentState : ", userCurrentState.user);
   console.log("userCurrentRole : ", userCurrentState.user?.role);
 
+  const { user, isSignedIn } = useUser(); // Get user data from Clerk
+  const navigate = useNavigate(); // Corrected typo
+  const dispatch = useDispatch(); // Redux dispatch
+  const prevuser: UserState = useSelector(
+    (state: RootState) => state.userState
+  ); // Get user data from Redux
+
+  console.log("User:", user); // Log user data to the console
+  console.log("User State:", prevuser); // Log user state to the console
+
+  useEffect(() => {
+    const registerUser = async () => {
+      if (isSignedIn && user && prevuser.user == null) {
+        const newUser = {
+          id: user.id, // Clerk's user ID
+          username: user.username || `${user.firstName} ${user.lastName}`, // Full name
+          email: user.primaryEmailAddress?.emailAddress || "", // Email
+        };
+
+        console.log("New User:", newUser); // Log new user data to the console
+
+        try {
+          // Send user data to the backend
+          const response = await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/users/create`, // Backend endpoint
+            newUser,
+            { headers: { "Content-Type": "application/json" } }
+          );
+
+          // Assuming the response returns the user data
+          const result = response.data;
+          console.log("User created in backend:", result.data); // Log backend response to the console
+
+          // Update Redux state with new user data
+          dispatch(setUser(result.data)); // Store user data in Redux
+          dispatch(setLogin(true)); // Set login status to true
+
+          // Navigate to home page after successful user creation
+          navigate("/");
+        } catch (error) {
+          console.error("Error creating user in backend:", error);
+        }
+      }
+    };
+    if (isSignedIn && user && prevuser.user == null) {
+      registerUser(); // Call the registerUser function to create user
+    }
+  }, []);
+
+  console.log("userin AuthenticatedRoutes : ", user);
   return (
     <SignedIn>
       <Routes>

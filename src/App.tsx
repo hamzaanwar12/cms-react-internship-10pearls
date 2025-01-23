@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Suspense } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin, setUser, UserState,setStatus } from "@/store/userSlice";
+import { setLogin, setUser, UserState, setStatus } from "@/store/userSlice";
 import axios from "axios";
 import AppRoutes from "./routes/AppRoutes";
 import Loader from "@/components/Loader";
@@ -21,7 +21,7 @@ const App = () => {
     console.log("User:", user);
     console.log("User State:", currentUserState);
     const fetchUser = async () => {
-      if (isSignedIn && user && currentUserState.user == null) {
+      if (isSignedIn && currentUserState.isLogin && user && currentUserState.user == null) {
         try {
           // Fetch the user data from the backend using Clerk user ID
           const response = await axios.get(
@@ -31,13 +31,13 @@ const App = () => {
             { headers: { "Content-Type": "application/json" } }
           );
 
-          const backendUser = response.data.data; 
+          const backendUser = response.data.data;
           // console.log("User fetched from backend:", backendUser);
           dispatch(setUser(backendUser));
           dispatch(setLogin(true));
-          dispatch(setStatus('success'));
-        } catch (error: any) {
-          console.error("Error fetching user from backend:", error.message);
+          dispatch(setStatus("success"));
+        } catch (error) {
+          console.error("Error fetching user from backend:", error);
         }
       }
     };

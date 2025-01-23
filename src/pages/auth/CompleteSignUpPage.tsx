@@ -15,6 +15,11 @@ const CompleteSignupPage: React.FC = () => {
     (state: RootState) => state.userState
   ); // Get user data from Redux
 
+
+  console.log("User:", user); // Log user data to the console
+  console.log("User State:", prevuser); // Log user state to the console
+
+  
   useEffect(() => {
     const registerUser = async () => {
       if (isSignedIn && user && prevuser.user == null) {

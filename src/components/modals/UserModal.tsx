@@ -74,7 +74,8 @@ const UserModal: React.FC<UserModalProps> = ({
           // icon: "x-circle", // Error icon
         });
       }
-    } catch (error: any) {
+    } catch (error) {
+      console.log(error);
       toast({
         description: "An error occurred while updating the user.",
         // icon: "x-circle", // Error icon

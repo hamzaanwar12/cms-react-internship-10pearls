@@ -12,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Contact } from "@/types";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
+import Loader from "@/components/Loader";
 
 export interface ContactModalProps {
   open: boolean;
@@ -29,11 +32,11 @@ const ContactModal: React.FC<ContactModalProps> = ({
   onUpdateSuccess,
 }) => {
   const [formData, setFormData] = React.useState(contact);
+  const [loading, setLoading] = React.useState(false);
+  const { toast } = useToast();
 
   const userAccessor = useSelector((state: RootState) => state.userState.user);
   const isAdmin = userAccessor?.role === "ADMIN";
-  // const userRole = userAccessor?.role;
-
   const isEditMode = mode === "edit";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,15 +44,48 @@ const ContactModal: React.FC<ContactModalProps> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
-    onUpdateSuccess();
-    // if (onSave) onSave(formData);
-    // onClose();
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/contacts/update/${
+          userAccessor?.id
+        }/${formData.id}`,
+        formData
+      );
+
+      if (response.data.status === "success") {
+        onUpdateSuccess();
+        toast({
+          description: "Contact updated successfully.",
+        });
+      } else if (response.data.status === "error") {
+        toast({
+          description: response.data.message || "Failed to update contact.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      
+      toast({
+        description:
+        error?.response.data.message ||
+          "An error occurred while updating the contact.",
+      });
+    } finally {
+      setLoading(false);
+      onClose();
+    }
   };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
+        {loading && (
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center z-10">
+            <Loader />
+          </div>
+        )}
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">
             {isEditMode ? "Edit Contact" : "View Contact"}

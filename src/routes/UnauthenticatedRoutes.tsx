@@ -9,6 +9,7 @@ const PublicHome = lazy(() => import("../pages/PublicHome")); // Example public 
 const SignIn = lazy(() => import("../pages/auth/SignIn")); // Example public page
 const SignUp = lazy(() => import("../pages/auth/SignUp")); // Example public page
 const Layout = lazy(() => import("../layout/Layout")); // Example public page
+const CompleteSignupPage = lazy(() => import("../pages/auth/CompleteSignUpPage")); // Example public page
 
 const UnauthenticatedRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const UnauthenticatedRoutes = () => {
           <Route index element={<PublicHome />} />
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
+          <Route path="complete-signup" element={<CompleteSignupPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

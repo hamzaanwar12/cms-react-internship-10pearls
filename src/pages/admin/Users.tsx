@@ -13,6 +13,7 @@ import GenericPagination from "@/components/GenericPagination";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import UserModal from "@/components/modals/UserModal";
+import DeleteUserModal from "@/components/modals/DeleteUserModal";
 
 export default function Users() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -23,6 +24,8 @@ export default function Users() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"view" | "edit">("view");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false); // State for delete modal
+
   const [check, setCheck] = useState(false);
   const globalUser: User | null = useSelector(
     (state: RootState) => state.userState.user
@@ -44,7 +47,8 @@ export default function Users() {
       import.meta.env.VITE_API_BASE_URL
     }/users/${userId}/paginated-users?page=${currentPage}${
       sortField ? `&sort=${sortField},${sortDirection}` : ""
-    }`,check
+    }`,
+    check
   );
 
   // Handle sorting
@@ -92,7 +96,8 @@ export default function Users() {
   );
 
   const handleDeleteUser = (row: User) => {
-    console.log("Delete user:", row);
+    setSelectedUser(row); // Set the selected user to delete
+    setDeleteModalOpen(true); // Open the delete confirmation modal
   };
 
   const handleEditUser = (row: User) => {
@@ -176,10 +181,9 @@ export default function Users() {
     setCurrentPage(page);
   };
 
-  const handleSuccess = ()=>
-  {
-    setCheck(!check); 
-  }
+  const handleSuccess = () => {
+    setCheck(!check);
+  };
   return (
     <div className="p-4 flex flex-col gap-4">
       <h1 className="text-xl font-bold mb-4">User List</h1>
@@ -198,6 +202,15 @@ export default function Users() {
           mode={modalMode}
           user={selectedUser}
           onUpdateSuccess={handleSuccess}
+        />
+      )}
+      {selectedUser && (
+        <DeleteUserModal
+          open={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          userId={selectedUser.id}
+          performerId={userId || ""}
+          onDeleteSuccess={handleSuccess}
         />
       )}
     </div>

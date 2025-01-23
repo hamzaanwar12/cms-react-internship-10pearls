@@ -11,7 +11,7 @@ import GenericPagination from "@/components/GenericPagination";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import ContactModal from "@/components/modals/ContactModal";
-import { OverflowContainer } from "@/components/NewModifyGeneric";
+// import { OverflowContainer } from "@/components/NewModifyGeneric";
 export default function ContactsPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -226,7 +226,7 @@ export default function ContactsPage() {
         <div className="text-center text-red-500">No contacts found.</div>
       )}
 
-      <OverflowContainer />
+      {/* <OverflowContainer /> */}
       {modalOpen && selectedContact && (
         <ContactModal
           open={modalOpen}
