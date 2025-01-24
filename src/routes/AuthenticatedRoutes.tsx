@@ -143,6 +143,7 @@ import { SignedIn } from "@clerk/clerk-react";
 import PageNotFound from "@/pages/PageNotFound";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import CompleteSignupPage from "@/pages/auth/CompleteSignUpPage";
 
 const Layout = React.lazy(() => import("../layout/Layout"));
 
@@ -175,7 +176,6 @@ const AuthenticatedRoutes = () => {
             <Route path="activity" element={<AdminActivity />} />
             <Route path="contacts" element={<AdminContacts />} />
             <Route path="add-contact" element={<AddContact />} />
-            {/* <Route path="recent" element={<AdminRecents />} /> */}
             <Route path="*" element={<PageNotFound />} />
           </Route>
         )}
@@ -189,6 +189,7 @@ const AuthenticatedRoutes = () => {
             <Route path="*" element={<PageNotFound />} />
           </Route>
         )}
+        <Route path="complete-signup" element={<CompleteSignupPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </SignedIn>
