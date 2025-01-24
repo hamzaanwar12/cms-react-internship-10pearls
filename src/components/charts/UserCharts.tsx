@@ -19,7 +19,7 @@ const UserTypeChart: React.FC<UserTypeChartProps> = ({ data }) => {
                 show: false
             }
         },
-        labels: ['Admin Users', 'Non-Admin Users'],
+        labels: ['Admins', 'Users'],
         colors: ['#ef4444', '#22c55e'], // Tailwind red-500 and green-500
         responsive: [
             {
