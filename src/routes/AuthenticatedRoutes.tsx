@@ -147,11 +147,11 @@ import { RootState } from "@/store/store";
 const Layout = React.lazy(() => import("../layout/Layout"));
 
 // Admin Pages
-const AdminDashBoard = React.lazy(() => import("@/pages/admin/dashborad"));
+const AdminDashBoard = React.lazy(() => import("@/pages/common/dashboard"));
 const AdminUsers = React.lazy(() => import("@/pages/admin/Users"));
 
 // User Pages
-const UserDashBoard = React.lazy(() => import("@/pages/user/dashboard"));
+const UserDashBoard = React.lazy(() => import("@/pages/common/dashboard"));
 const UserContacts = React.lazy(() => import("@/pages/common/Contacts"));
 
 //commonpages

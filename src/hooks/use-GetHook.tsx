@@ -15,8 +15,14 @@ function useGet<T>(url: string): UseGetResponse<T> {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(url);
-        setData(response.data);
+        if (url != null || url === "") {
+          const response = await axios.get(url);
+          setData(response.data);
+        }
+        else {
+          console.error("URL is null");
+          return { isLoading, isError, data };
+        }
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error(error.response?.data || error.message);
